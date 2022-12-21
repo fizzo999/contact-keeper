@@ -1,7 +1,13 @@
 // bring in express - since we are using node - the syntax is require NOT import
 const express = require('express');
+
+const connectDB = require('./config/db.js');
+
 // initialize app as the output of the express function - now app has all the methods that come with express
 const app = express();
+
+//connect data base
+connectDB();
 
 // define PORT for server to listen on - use environment variables first or port 5000
 const PORT = process.env.PORT || 5000;
