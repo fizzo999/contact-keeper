@@ -1,0 +1,29 @@
+{
+  "name": "contact-keeper",
+  "version": "1.0.0",
+  "description": "full stack MERN application react front end express/node backend mongo: store, add, update, delete contacts after login",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fizzo999/contact-keeper.git"
+  },
+  "keywords": [],
+  "author": "Fizzo Pannosch",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.3.8",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.8.1"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "nodemon": "^2.0.20"
+  }
+}
