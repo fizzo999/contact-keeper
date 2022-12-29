@@ -9,6 +9,7 @@ const app = express();
 //connect data base
 connectDB();
 
+// middleware to allow json data and req.body
 app.use(express.json({ extended: false }));
 
 // define PORT for server to listen on - use environment variables first or port 5000

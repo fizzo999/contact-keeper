@@ -84,6 +84,10 @@ router.put('/:id', auth, async (req, res) => {
       { $set: contactFields },
       { new: true }
     );
+
+    res.status(200).json({
+      msg: `folloing contact was updated successfully: ${contact.name}`,
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error for updating this contact');
@@ -92,8 +96,30 @@ router.put('/:id', auth, async (req, res) => {
 // @route  DELETE api/contacts/:id
 // @desc   delete a contact
 // @access private
-router.delete('/:id', (req, res) => {
-  res.send('delete a contact');
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    // accessing the db to find the contact by id
+    let contact = await Contact.findById(req.params.id);
+
+    //
+    if (!contact) {
+      return res.status(404).json({ msg: 'Contact NOT found' });
+    }
+
+    // make sure user owns contact by comparing user-id from db to user-id from token
+    if (contact.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Not authorized' });
+    }
+
+    let deletedContact = await Contact.findByIdAndRemove(req.params.id);
+
+    res.status(200).json({
+      msg: `contact: ${deletedContact.name} removed successfully from db`,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error for updating this contact');
+  }
 });
 
 module.exports = router;

@@ -47,6 +47,9 @@ router.post(
       user.password = await bcrypt.hash(password, salt);
 
       await user.save();
+      console.log(
+        'user saved to db ==========================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
+      );
 
       const payload = {
         user: {

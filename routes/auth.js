@@ -5,6 +5,7 @@ const config = require('config');
 const auth = require('../middleware/auth.js');
 const { check, validationResult } = require('express-validator');
 
+const User = require('../models/User.js');
 const router = express.Router();
 
 // @route  GET api/auth
@@ -40,10 +41,18 @@ router.post(
     try {
       let user = await User.findOne({ email: email });
 
+      console.log(
+        'here is the user from mongoDB ======================>>>>>>>',
+        user
+      );
+
       if (!user) {
-        return res.status(400).json({ msg: 'Invalid email' });
+        return res
+          .status(400)
+          .json({ msg: 'Invalid email - user does NOT exist' });
       }
 
+      //checking the password from req.body to the stored (hashed) password in the db
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
@@ -52,12 +61,14 @@ router.post(
 
       // if it is a match (the password matches the encrypted password in the database)
       // then we send the user.id as an object inside the encrypted token
-
       const payload = {
         user: {
           id: user.id,
         },
       };
+
+      console.log('here it gets interesting ------->>>> user.id', user.id);
+      console.log('here it gets interesting ------->>>> user._id', user._id);
 
       jwt.sign(
         payload,
