@@ -13,6 +13,7 @@ const router = express.Router();
 // @access private
 router.get('/', auth, async (req, res) => {
   try {
+    // after using the middleware (auth) that checks for the token and sets the user-id from the token into req.user which is now available to us to query the db and find that user by its user.id
     const user = await User.findById(req.user.id).select('-password');
     res.status(200).json(user);
   } catch (err) {

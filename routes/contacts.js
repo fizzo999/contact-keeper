@@ -7,18 +7,18 @@ const User = require('../models/User.js');
 const Contact = require('../models/Contact.js');
 
 // @route  GET api/contacts
-// @desc   get all users contacts
+// @desc   get all contacts from a logged in user
 // @access private
 router.get('/', auth, async (req, res) => {
   try {
-    const contacts = await Contacts.find({ user: req.user.id }).sort({
+    const contacts = await Contact.find({ user: req.user.id }).sort({
       date: -1,
     });
 
     res.status(200).json(contacts);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('server error');
+    res.status(500).send('server error in trying to get contacts');
   }
 });
 // @route  POST api/contacts
@@ -32,6 +32,9 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    // contacting the db to get the real name of the user that owns this contact about to be stored
+    let owner = await User.findById(req.user.id).select('-password');
+
     const { name, email, phone, type } = req.body;
 
     try {
@@ -41,6 +44,7 @@ router.post(
         phone: phone,
         type: type,
         user: req.user.id,
+        owner: owner.name,
       });
 
       const contact = await newContact.save();
@@ -76,17 +80,19 @@ router.put('/:id', auth, async (req, res) => {
 
     // make sure user owns contact by comparing user-id from db to user-id from token
     if (contact.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'Not authorized' });
+      return res
+        .status(401)
+        .json({ msg: 'Not authorized to edit this contact' });
     }
 
     contact = await Contact.findByIdAndUpdate(
       req.params.id,
       { $set: contactFields },
-      { new: true }
+      { new: false }
     );
 
     res.status(200).json({
-      msg: `folloing contact was updated successfully: ${contact.name}`,
+      msg: `following contact was updated successfully: ${contact.name}`,
     });
   } catch (err) {
     console.error(err.message);
@@ -114,7 +120,7 @@ router.delete('/:id', auth, async (req, res) => {
     let deletedContact = await Contact.findByIdAndRemove(req.params.id);
 
     res.status(200).json({
-      msg: `contact: ${deletedContact.name} removed successfully from db`,
+      msg: `contact: ${deletedContact} removed successfully from db`,
     });
   } catch (err) {
     console.error(err.message);
