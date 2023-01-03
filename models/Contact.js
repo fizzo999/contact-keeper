@@ -5,7 +5,7 @@ const ContactSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users',
   },
-  owner: {
+  user_alias: {
     type: String,
   },
   name: {
