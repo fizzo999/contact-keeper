@@ -24,7 +24,7 @@ const ContactItem = ({ contactprop }) => {
           (type === 'professional' ? 'badge-success' : 'badge-primary')
         }
       >
-        {type}
+        {type.charAt(0).toUpperCase() + type.slice(1)}
       </h3>
     </div>
   );
