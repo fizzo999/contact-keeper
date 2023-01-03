@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './components/layout/Home.js';
-import About from './components/layout/About.js';
+import Home from './components/pages/Home.js';
+import About from './components/pages/About.js';
 import Navbar from './components/layout/Navbar.js';
 import './App.css';
 
