@@ -4,29 +4,23 @@ import PropTypes from 'prop-types';
 const ContactItem = ({ contactprop }) => {
   const { id, name, phone, email, type } = contactprop;
   return (
-    <div
-      className='card bg-light'
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-      }}
-    >
-      <h3 className='text-primary' style={{}}>
+    <div className='card bg-light'>
+      <h3 className='text-primary text-left'>
         {name}
         {'  '}
-      </h3>
-      <h3
-        className={
-          'p-2' +
-          ' ' +
-          'badge' +
-          ' ' +
-          (type === 'professional' ? 'badge-success' : 'badge-primary')
-        }
-        style={{ height: '3em', lineHeight: '1.5em' }}
-      >
-        {type.charAt(0).toUpperCase() + type.slice(1)}
+
+        <span
+          style={{ float: 'right' }}
+          className={
+            'p-2' +
+            ' ' +
+            'badge' +
+            ' ' +
+            (type === 'professional' ? 'badge-success' : 'badge-primary')
+          }
+        >
+          {type.charAt(0).toUpperCase() + type.slice(1)}
+        </span>
       </h3>
       <ul className='list'>
         {email && (
