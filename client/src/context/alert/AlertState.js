@@ -33,3 +33,5 @@ const AlertState = props => {
     </AlertContext.Provider>
   );
 };
+
+export default AlertState;
