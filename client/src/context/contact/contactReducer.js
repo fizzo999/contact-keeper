@@ -32,6 +32,28 @@ const contactReducerFunction = (state, action) => {
         ...state,
         current: null,
       };
+    case UPDATE_CONTACT:
+      return {
+        ...state,
+        contacts: state.contacts.map(eachContact =>
+          eachContact.id === action.payload.id ? action.payload : eachContact
+        ),
+      };
+    case FILTER_CONTACTS:
+      return {
+        ...state,
+        filtered: state.contacts.filter(eachContact => {
+          const regex = new RegExp(`${action.payload}`, 'gi');
+          return (
+            eachContact.name.match(regex) || eachContact.email.match(regex)
+          );
+        }),
+      };
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        filtered: null,
+      };
     default:
       return state;
   }
