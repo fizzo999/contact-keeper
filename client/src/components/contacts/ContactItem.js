@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import ContactContext from '../../context/contact/contactContext.js';
 
 const ContactItem = ({ contactprop }) => {
-  const { name, phone, email, type } = contactprop;
+  const contactContext = useContext(ContactContext);
+
+  const { deleteContact } = contactContext;
+
+  const { id, name, phone, email, type } = contactprop;
+
+  const onDelete = () => {
+    // feed in id we get from contact which we get prom props
+    deleteContact(id);
+  };
   return (
     <div className='card bg-light'>
       <h3 className='text-primary text-left'>
@@ -36,7 +46,9 @@ const ContactItem = ({ contactprop }) => {
       </ul>
       <p>
         <button className='btn btn-dark btn-sm'>Edit</button>
-        <button className='btn btn-danger btn-sm'>Delete</button>
+        <button className='btn btn-danger btn-sm' onClick={onDelete}>
+          Delete
+        </button>
       </p>
     </div>
   );
