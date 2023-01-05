@@ -6,6 +6,13 @@ const ContactForm = () => {
 
   const { addContact, updateContact, clearCurrent, current } = contactContext;
 
+  const [contact, setContact] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    type: 'personal',
+  });
+
   useEffect(() => {
     if (current !== null) {
       setContact(current);
@@ -19,13 +26,6 @@ const ContactForm = () => {
     }
     // }, [contactContext, current]); - not necessary - monitoring current for changes for this useEffect hook should be enough !
   }, [current]);
-
-  const [contact, setContact] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    type: 'personal',
-  });
 
   const { name, email, phone, type } = contact;
 
