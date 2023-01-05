@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ContactItem = ({ contactprop }) => {
-  const { id, name, phone, email, type } = contactprop;
+  const { name, phone, email, type } = contactprop;
   return (
     <div className='card bg-light'>
       <h3 className='text-primary text-left'>
