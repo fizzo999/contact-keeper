@@ -1,8 +1,24 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ContactContext from '../../context/contact/contactContext.js';
 
 const ContactForm = () => {
   const contactContext = useContext(ContactContext);
+
+  const { addContact, current } = contactContext;
+
+  useEffect(() => {
+    if (current !== null) {
+      setContact(current);
+    } else {
+      setContact({
+        name: '',
+        email: '',
+        phone: '',
+        type: 'personal',
+      });
+    }
+    // }, [contactContext, current]); - not necessary - monitoring current for changes for this useEffect hook should be enough !
+  }, [current]);
 
   const [contact, setContact] = useState({
     name: '',
@@ -20,7 +36,7 @@ const ContactForm = () => {
   const onSubmit = e => {
     e.preventDefault();
     // pass contact which is component level state into the function addContact which we have access to through ContactContext
-    contactContext.addContact(contact);
+    addContact(contact);
     setContact({
       name: '',
       email: '',

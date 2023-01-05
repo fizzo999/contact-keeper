@@ -5,13 +5,14 @@ import ContactContext from '../../context/contact/contactContext.js';
 const ContactItem = ({ contactprop }) => {
   const contactContext = useContext(ContactContext);
 
-  const { deleteContact } = contactContext;
+  const { deleteContact, setCurrent, clearCurrent } = contactContext;
 
   const { id, name, phone, email, type } = contactprop;
 
   const onDelete = () => {
     // feed in id we get from contact which we get prom props
     deleteContact(id);
+    clearCurrent();
   };
   return (
     <div className='card bg-light'>
@@ -45,7 +46,12 @@ const ContactItem = ({ contactprop }) => {
         )}
       </ul>
       <p>
-        <button className='btn btn-dark btn-sm'>Edit</button>
+        <button
+          className='btn btn-dark btn-sm'
+          onClick={() => setCurrent(contactprop)}
+        >
+          Edit
+        </button>
         <button className='btn btn-danger btn-sm' onClick={onDelete}>
           Delete
         </button>
