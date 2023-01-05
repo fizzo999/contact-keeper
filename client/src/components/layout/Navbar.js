@@ -19,6 +19,16 @@ const Navbar = ({ title, icon }) => {
             About
           </Link>
         </li>
+        <li>
+          <Link style={{ textDecoration: 'none' }} to='/login'>
+            Login
+          </Link>
+        </li>
+        <li>
+          <Link style={{ textDecoration: 'none' }} to='/register'>
+            Register
+          </Link>
+        </li>
       </ul>
     </div>
   );
