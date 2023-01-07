@@ -11,14 +11,33 @@ import {
 
 const alertReducerFunction = (state, action) => {
   switch (action.type) {
+    case USER_LOADED:
+      return {
+        ...state,
+        isAuthenticated: true,
+        loading: false,
+        user: action.payload,
+      };
     case REGISTER_SUCCESS:
+      console.log(
+        'we are inside of the reducer and putting it into local storage',
+        action.payload.token
+      );
       localStorage.setItem('token', action.payload.token);
+      console.log('and now it should be in local storage !!!');
+      console.log(
+        'here is proof here is local storage =====>>>>>>>>',
+        localStorage.getItem('token')
+      );
+
       return {
         ...state,
         ...action.payload,
+        token: action.payload.token,
         isAuthenticated: true,
         loading: false,
       };
+    case AUTH_ERROR:
     case REGISTER_FAIL:
       localStorage.removeItem('token');
       return {
@@ -28,6 +47,11 @@ const alertReducerFunction = (state, action) => {
         loading: false,
         user: null,
         error: action.payload,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
       };
     default:
       return state;

@@ -1,14 +1,30 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AlertContext from '../../context/alert/alertContext.js';
 import AuthContext from '../../context/auth/authContext.js';
 
-const Register = () => {
+const Register = props => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const { setAlert } = alertContext;
 
-  const { registerUser } = authContext;
+  const { registerUser, clearErrors, error, isAuthenticated } = authContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      // props.history.push('/');
+      // research has shown that the history method has been replaced by the useNavigate method
+      // navigate('/');
+    }
+
+    if (error === 'User already exists') {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+    // eslint-disable-next-line
+  }, [error, isAuthenticated]);
 
   const [user, setUser] = useState({
     name: '',
@@ -30,6 +46,7 @@ const Register = () => {
     } else if (password !== password2) {
       setAlert('Passwords must match', 'danger');
     } else {
+      console.log('here we are registering the user', name, email, password);
       registerUser({
         name,
         email,

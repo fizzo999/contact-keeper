@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import AuthContext from '../../context/auth/authContext.js';
 
 const Navbar = ({ title, icon }) => {
+  const authContext = useContext(AuthContext);
+
+  const { user } = authContext;
   return (
     <div className='navbar bg-primary p'>
       <h1>
         <i className={`${icon} p-3`}></i> {title}
+        {user}
       </h1>
       <ul className='lead'>
         <li>

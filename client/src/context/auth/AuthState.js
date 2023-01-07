@@ -2,6 +2,8 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import AuthContext from './authContext.js';
 import authReducer from './authReducer.js';
+import setAuthToken from '../../utils/setAuthToken.js';
+
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -25,23 +27,80 @@ const AuthState = props => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   //load user
-  const loadUser = () => {
-    // something
+  const loadUser = async () => {
+    console.log(
+      'we are inside of loadUser and here is localStorage.token',
+      localStorage.token,
+      localStorage.getItem('token'),
+      'and we are starting the timeout...'
+    );
+    setTimeout(async () => {
+      console.log('here is a timeout ...');
+      if (localStorage.getItem('token')) {
+        setAuthToken(localStorage.getItem('token'));
+        try {
+          const res = await axios.get('http://localhost:5000/api/auth/users');
+
+          console.log('we are inside AuthState and here is res.data', res.data);
+
+          dispatch({
+            type: USER_LOADED,
+            payload: res.data,
+          });
+        } catch (err) {
+          dispatch({
+            type: AUTH_ERROR,
+          });
+        }
+      } else {
+        console.log('there is no TOKEN !!!!!');
+      }
+    }, 1000);
+    // if (localStorage.token) {
+    //   setAuthToken(localStorage.token);
+    // } else {
+    //   console.log('there is no TOKEN !!!!!');
+    // }
+
+    // try {
+    //   const res = await axios.get('/api/auth/user');
+
+    //   console.log('we are inside AuthState and here is res.data', res.data);
+
+    //   dispatch({
+    //     type: USER_LOADED,
+    //     payload: res.data,
+    //   });
+    // } catch (err) {
+    //   dispatch({
+    //     type: AUTH_ERROR,
+    //   });
+    // }
   };
   //register user
   const registerUser = async formData => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
       },
     };
+
+    console.log(
+      'we are now inside of auth state and here is formData',
+      formData
+    );
     try {
       const res = await axios.post('/api/users', formData, config);
+
+      console.log('here is res.data', res.data);
 
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data,
       });
+
+      loadUser();
     } catch (err) {
       dispatch({
         type: REGISTER_FAIL,
@@ -59,7 +118,9 @@ const AuthState = props => {
   };
   //clear errors
   const clearErrors = () => {
-    // something
+    dispatch({
+      type: CLEAR_ERRORS,
+    });
   };
 
   return (

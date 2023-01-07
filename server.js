@@ -3,11 +3,15 @@ const express = require('express');
 // bring in module to start mongodb through mongoose
 const connectDB = require('./config/db.js');
 
+const cors = require('cors');
+
 // initialize app as the output of the express function - now app has all the methods that come with express
 const app = express();
 
 //connect data base
 connectDB();
+
+app.use(cors());
 
 // middleware to allow json data and req.body
 app.use(express.json({ extended: false }));

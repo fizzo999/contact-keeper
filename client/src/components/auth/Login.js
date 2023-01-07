@@ -12,7 +12,10 @@ const Login = () => {
 
   const onSubmit = e => {
     e.preventDefault();
-    console.log('we logged in as a user - yay');
+    console.log(
+      'we logged in as a user - yay - and here is user in Login.js component level state',
+      user
+    );
   };
 
   return (
