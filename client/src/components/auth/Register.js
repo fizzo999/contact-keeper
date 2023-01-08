@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AlertContext from '../../context/alert/alertContext.js';
 import AuthContext from '../../context/auth/authContext.js';
 
-const Register = props => {
+const Register = () => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const Register = props => {
     if (isAuthenticated) {
       // props.history.push('/');
       // research has shown that the history method has been replaced by the useNavigate method
-      // navigate('/');
+      navigate('/');
     }
 
     if (error === 'User already exists') {

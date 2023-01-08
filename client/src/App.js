@@ -14,6 +14,7 @@ import setAuthToken from './utils/setAuthToken.js';
 import './App.css';
 
 if (localStorage.token) {
+  console.log('we are in APP - setting local storage');
   setAuthToken(localStorage.token);
 }
 

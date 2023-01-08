@@ -35,11 +35,13 @@ const AuthState = props => {
       'and we are starting the timeout...'
     );
     setTimeout(async () => {
-      console.log('here is a timeout ...');
+      console.log('timeout done...');
       if (localStorage.getItem('token')) {
         setAuthToken(localStorage.getItem('token'));
         try {
-          const res = await axios.get('http://localhost:5000/api/auth/users');
+          // const res = await axios.get('http://localhost:5000/api/auth/users');
+          // checking in server.js and then in /routes/auth.js shows the get request first fires off middleware that checks for token (which by now has been set globally into the headers through our utils function - and then needs user.id in the req.user to work ....???
+          const res = await axios.get('/api/auth');
 
           console.log('we are inside AuthState and here is res.data', res.data);
 
@@ -48,9 +50,9 @@ const AuthState = props => {
             payload: res.data,
           });
         } catch (err) {
-          dispatch({
-            type: AUTH_ERROR,
-          });
+          // dispatch({
+          //   type: AUTH_ERROR,
+          // });
         }
       } else {
         console.log('there is no TOKEN !!!!!');
@@ -77,6 +79,7 @@ const AuthState = props => {
     //   });
     // }
   };
+
   //register user
   const registerUser = async formData => {
     const config = {

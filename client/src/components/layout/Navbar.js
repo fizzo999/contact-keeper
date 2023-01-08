@@ -10,8 +10,8 @@ const Navbar = ({ title, icon }) => {
   return (
     <div className='navbar bg-primary p'>
       <h1>
-        <i className={`${icon} p-3`}></i> {title}
-        {user}
+        <i className={`${icon} p-3`}></i> {title} {' hello: '}
+        {user && user.name}
       </h1>
       <ul className='lead'>
         <li>

@@ -32,7 +32,7 @@ const alertReducerFunction = (state, action) => {
 
       return {
         ...state,
-        ...action.payload,
+        // ...action.payload,
         token: action.payload.token,
         isAuthenticated: true,
         loading: false,
