@@ -39,8 +39,7 @@ const AuthState = props => {
       if (localStorage.getItem('token')) {
         setAuthToken(localStorage.getItem('token'));
         try {
-          // const res = await axios.get('http://localhost:5000/api/auth/users');
-          // checking in server.js and then in /routes/auth.js shows the get request first fires off middleware that checks for token (which by now has been set globally into the headers through our utils function - and then needs user.id in the req.user to work ....???
+          // checking in server.js and then in /routes/auth.js shows the get request first fires off middleware that checks for token (which by now has been set globally into the headers through our utils function - the server then takes that token, strips off the id through jwt and attaches the id as a req.user.id object to the req body and makes a request to mongodb, returning the mongo_id, name, email. Then the server sends that to our react app - voila
           const res = await axios.get('/api/auth');
 
           console.log('we are inside AuthState and here is res.data', res.data);
@@ -50,34 +49,14 @@ const AuthState = props => {
             payload: res.data,
           });
         } catch (err) {
-          // dispatch({
-          //   type: AUTH_ERROR,
-          // });
+          dispatch({
+            type: AUTH_ERROR,
+          });
         }
       } else {
         console.log('there is no TOKEN !!!!!');
       }
     }, 1000);
-    // if (localStorage.token) {
-    //   setAuthToken(localStorage.token);
-    // } else {
-    //   console.log('there is no TOKEN !!!!!');
-    // }
-
-    // try {
-    //   const res = await axios.get('/api/auth/user');
-
-    //   console.log('we are inside AuthState and here is res.data', res.data);
-
-    //   dispatch({
-    //     type: USER_LOADED,
-    //     payload: res.data,
-    //   });
-    // } catch (err) {
-    //   dispatch({
-    //     type: AUTH_ERROR,
-    //   });
-    // }
   };
 
   //register user
@@ -111,14 +90,38 @@ const AuthState = props => {
       });
     }
   };
+
   //login user
-  const loginUser = () => {
-    // something
+  const loginUser = async formData => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    };
+
+    try {
+      const res = await axios.post('/api/auth', formData, config);
+
+      console.log('here is res.data from login', res.data);
+
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data,
+      });
+
+      loadUser();
+    } catch (err) {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err.response.data.msg,
+      });
+    }
   };
+
   //logout user
-  const logoutUser = () => {
-    // something
-  };
+  const logoutUser = () => dispatch({ type: LOGOUT });
+
   //clear errors
   const clearErrors = () => {
     dispatch({

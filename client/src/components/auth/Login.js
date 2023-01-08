@@ -1,6 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AlertContext from '../../context/alert/alertContext.js';
+import AuthContext from '../../context/auth/authContext.js';
 
 const Login = () => {
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const { setAlert } = alertContext;
+  const { loginUser, clearErrors, error, isAuthenticated } = authContext;
+
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -8,14 +18,33 @@ const Login = () => {
 
   const { email, password } = user;
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+    if (
+      error === 'Invalid email - user does NOT exist' ||
+      error === 'Invalid password'
+    ) {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+    // eslint-disable-next-line
+  }, [error, isAuthenticated]);
+
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
-    console.log(
-      'we logged in as a user - yay - and here is user in Login.js component level state',
-      user
-    );
+    if (email === '' || password === '') {
+      setAlert('Please enter all fields', 'danger');
+    } else {
+      console.log('here we are logging in the user: ', user);
+      loginUser({
+        email,
+        password,
+      });
+    }
   };
 
   return (

@@ -9,7 +9,6 @@ const Register = () => {
   const navigate = useNavigate();
 
   const { setAlert } = alertContext;
-
   const { registerUser, clearErrors, error, isAuthenticated } = authContext;
 
   useEffect(() => {

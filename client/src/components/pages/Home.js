@@ -8,7 +8,10 @@ const Home = () => {
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
-    authContext.loadUser();
+    // authContext.loadUser();
+    console.log(
+      'we are in the home.js component and useeffect loading the user - NOT !!!!'
+    );
     // eslint-disable-next-line
   }, []);
 
