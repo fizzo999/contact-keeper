@@ -8,10 +8,15 @@ const Home = () => {
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
-    // authContext.loadUser();
     console.log(
-      'we are in the home.js component and useeffect loading the user - NOT !!!!'
+      'we are in HOME component and we are checking for local storage'
     );
+    // if (localStorage.token && !authContext.isAuthenticated)
+    //   authContext.loadUser();
+    // console.log(
+    //   'we are in HOME component and we are checking for isAuthenticated'
+    // );
+    // authContext.loadUser();
     // eslint-disable-next-line
   }, []);
 

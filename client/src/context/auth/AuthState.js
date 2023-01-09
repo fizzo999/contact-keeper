@@ -31,7 +31,6 @@ const AuthState = props => {
     console.log(
       'we are inside of loadUser and here is localStorage.token',
       localStorage.token,
-      localStorage.getItem('token'),
       'and we are starting the timeout...'
     );
     setTimeout(async () => {

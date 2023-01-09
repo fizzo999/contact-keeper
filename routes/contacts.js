@@ -71,6 +71,11 @@ router.put('/:id', auth, async (req, res) => {
 
   try {
     // accessing the db to find the contact by id
+    console.log(
+      'we are inside of contacts.js and here is Contact and req.user',
+      Contact,
+      req.user
+    );
     let contact = await Contact.findById(req.params.id);
 
     //
@@ -88,12 +93,10 @@ router.put('/:id', auth, async (req, res) => {
     contact = await Contact.findByIdAndUpdate(
       req.params.id,
       { $set: contactFields },
-      { new: false }
+      { new: true }
     );
 
-    res.status(200).json({
-      msg: `following contact was updated successfully: ${contact.name}`,
-    });
+    res.status(200).json(contact);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error for updating this contact');

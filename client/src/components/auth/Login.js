@@ -9,7 +9,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const { setAlert } = alertContext;
-  const { loginUser, clearErrors, error, isAuthenticated } = authContext;
+  const { loginUser, loadUser, clearErrors, error, isAuthenticated } =
+    authContext;
 
   const [user, setUser] = useState({
     email: '',
@@ -19,7 +20,17 @@ const Login = () => {
   const { email, password } = user;
 
   useEffect(() => {
+    console.log(
+      'we are in Login component and we are checking for local storage'
+    );
+    if (localStorage.token && !isAuthenticated) loadUser();
+    console.log(
+      'we are in Login component and we are checking for isAuthenticated'
+    );
     if (isAuthenticated) {
+      console.log(
+        'and now we are isAuthenticated === true and we are navigating to /'
+      );
       navigate('/');
     }
     if (

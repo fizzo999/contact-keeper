@@ -15,7 +15,7 @@ import setAuthToken from './utils/setAuthToken.js';
 import './App.css';
 
 if (localStorage.token) {
-  console.log('we are in APP - setting local storage');
+  console.log('we are in APP - setting token to global header for axios');
   setAuthToken(localStorage.token);
 }
 

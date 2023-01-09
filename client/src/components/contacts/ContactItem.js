@@ -7,11 +7,11 @@ const ContactItem = ({ contactprop }) => {
 
   const { deleteContact, setCurrent, clearCurrent } = contactContext;
 
-  const { id, name, phone, email, type } = contactprop;
+  const { _id, name, phone, email, type } = contactprop;
 
   const onDelete = () => {
     // feed in id we get from contact which we get prom props
-    deleteContact(id);
+    deleteContact(_id);
     clearCurrent();
   };
   return (

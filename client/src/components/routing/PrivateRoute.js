@@ -5,10 +5,14 @@ import AuthContext from '../../context/auth/authContext.js';
 
 const PrivateRoute = ({ component: Component }) => {
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, loading } = authContext;
+  // const { isAuthenticated, loading } = authContext;
+  const { isAuthenticated } = authContext;
   // if (loading) return <Spinner />;
-  if (isAuthenticated) return <Component />;
-  return <Navigate to='/login' />;
+  if (isAuthenticated) {
+    return <Component />;
+  } else {
+    return <Navigate to='/login' />;
+  }
 };
 
 export default PrivateRoute;
